@@ -1,5 +1,6 @@
 package com.guanjianzhuo.springcloudclientdemo.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,11 +16,20 @@ public class ClientController {
 	RestTemplate restTemplate;
 
 	@RequestMapping("/client")
+	@HystrixCommand(fallbackMethod = "hystrixWork")
 	public Map<String, Object> client() {
 		ResponseEntity<String> resp = restTemplate.getForEntity("http://SPRING-CLOUD-SERVICE-DEMO/service", String.class);
+		if(true)
+			throw new RuntimeException("test");
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("msg", "Call service.");
 		result.put("resp", resp.getBody());
+		return result;
+	}
+
+	public Map<String, Object> hystrixWork(){
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("msg", "error.");
 		return result;
 	}
 }
