@@ -19,8 +19,6 @@ public class ClientController {
 	@HystrixCommand(fallbackMethod = "hystrixWork")
 	public Map<String, Object> client() {
 		ResponseEntity<String> resp = restTemplate.getForEntity("http://SPRING-CLOUD-SERVICE-DEMO/service", String.class);
-		if(true)
-			throw new RuntimeException("test");
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("msg", "Call service.");
 		result.put("resp", resp.getBody());

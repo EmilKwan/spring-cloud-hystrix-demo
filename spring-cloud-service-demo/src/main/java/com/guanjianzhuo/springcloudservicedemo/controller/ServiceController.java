@@ -10,6 +10,13 @@ import java.util.Map;
 public class ServiceController {
 	@RequestMapping("/service")
 	public Map<String, Object> service() {
+		try {
+			int ms = (int)(Math.random()*3000);
+			System.out.println("wait " + ms + "ms");
+			Thread.sleep(ms);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("msg", "This is a service demo.");
 		return result;
