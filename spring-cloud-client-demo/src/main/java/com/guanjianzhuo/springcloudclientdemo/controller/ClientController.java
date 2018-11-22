@@ -16,6 +16,7 @@ public class ClientController {
 	RestTemplate restTemplate;
 
 	@RequestMapping("/client")
+	// 熔断触发命令，超时或者抛异常都会触发
 	@HystrixCommand(fallbackMethod = "hystrixWork")
 	public Map<String, Object> client() {
 		ResponseEntity<String> resp = restTemplate.getForEntity("http://SPRING-CLOUD-SERVICE-DEMO/service", String.class);
